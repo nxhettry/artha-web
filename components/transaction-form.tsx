@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { createTransaction } from "@/lib/actions";
 import { PersonSelector } from "@/components/person-selector";
+import { toast } from "sonner";
 
 export default function TransactionForm() {
   const router = useRouter();
@@ -28,34 +29,49 @@ export default function TransactionForm() {
     person: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSelectChange = (name, value) => {
+  const handleSelectChange = (name: string, value: string) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handlePersonChange = (person) => {
+  const handlePersonChange = (person: string) => {
     setFormData((prev) => ({ ...prev, person }));
   };
 
-  const handleSubmit = async (e) => {
+  const clearForm = () => {
+    setFormData({
+      title: "",
+      amount: "",
+      category: "",
+      description: "",
+      person: "",
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      await createTransaction({
+      const isSuccess = await createTransaction({
         ...formData,
         amount: Number.parseFloat(formData.amount),
       });
-      router.push("/transactions");
-      router.refresh();
+
+      if (isSuccess) {
+        toast.success("Transaction created successfully");
+      } else {
+        toast.error("Failed to create transaction");
+      }
     } catch (error) {
       console.error("Error creating transaction:", error);
     } finally {
       setIsSubmitting(false);
+      clearForm();
     }
   };
 
@@ -122,7 +138,11 @@ export default function TransactionForm() {
               id="description"
               name="description"
               value={formData.description}
-              onChange={handleChange}
+              onChange={(e) =>
+                handleChange(
+                  e as unknown as React.ChangeEvent<HTMLInputElement>
+                )
+              }
               placeholder="Weekly groceries from Walmart"
               rows={3}
             />

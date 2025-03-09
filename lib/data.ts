@@ -1,10 +1,11 @@
 import { cache } from "react";
-import { connectToDatabase } from "@/lib/mongodb";
-import { Transaction } from "@/lib/models";
-import { Person } from "@/lib/models";
+import connectDb from "@/lib/mongodb";
+import Transaction from "@/models/transaction.model";
+import Person from "@/models/person.model";
+import { TransactionData } from "./actions";
 
 export const getTransactionSummary = cache(async () => {
-  await connectToDatabase();
+  await connectDb();
 
   // Aggregate transactions by category
   const summary = await Transaction.aggregate([
@@ -26,7 +27,7 @@ export const getTransactionSummary = cache(async () => {
   };
 
   summary.forEach((item) => {
-    result[item._id] = item.total;
+    result[item._id as keyof typeof result] = item.total;
   });
 
   // Calculate balance
@@ -36,7 +37,7 @@ export const getTransactionSummary = cache(async () => {
 });
 
 export const getRecentTransactions = cache(async (limit = 5) => {
-  await connectToDatabase();
+  await connectDb();
 
   const transactions = await Transaction.find()
     .sort({ createdAt: -1 })
@@ -46,12 +47,12 @@ export const getRecentTransactions = cache(async (limit = 5) => {
   return transactions;
 });
 
-export const getAllTransactions = cache(async () => {
-  await connectToDatabase();
+export const getAllTransactions = cache(async (): Promise<TransactionData[]> => {
+  await connectDb();
 
   const transactions = await Transaction.find().sort({ createdAt: -1 }).lean();
 
-  return transactions;
+  return JSON.parse(JSON.stringify(transactions)) as TransactionData[];
 });
 
 export const getCategoryReport = cache(async () => {
@@ -60,7 +61,7 @@ export const getCategoryReport = cache(async () => {
 });
 
 export const getPersons = cache(async () => {
-  await connectToDatabase();
+  await connectDb();
 
   const persons = await Person.find().lean();
 
