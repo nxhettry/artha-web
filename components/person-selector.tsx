@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { getPersons } from "@/lib/data";
-import { PersonData } from "@/lib/actions";
+import { usePeople } from "@/context/PersonContext";
 
 export function PersonSelector({
   value,
@@ -12,17 +11,8 @@ export function PersonSelector({
   value: string;
   onChange: (value: string) => void;
 }) {
-  const [persons, setPersons] = useState<PersonData[]>([]);
+  const { people, loading, error } = usePeople();
   const [inputValue, setInputValue] = useState(value || "");
-
-  useEffect(() => {
-    const loadPersons = async () => {
-      const data = await getPersons();
-      setPersons(data as unknown as PersonData[]);
-    };
-
-    loadPersons();
-  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -36,12 +26,15 @@ export function PersonSelector({
         value={inputValue}
         onChange={handleChange}
         placeholder="Enter person name"
+        disabled={loading}
       />
       <datalist id="persons">
-        {persons.map((person) => (
-          <option key={person._id} value={person.name} />
-        ))}
+        {people.length > 0 &&
+          people.map((person) => (
+            <option key={person._id} value={person.name} />
+          ))}
       </datalist>
+      {error && <p className="text-red-500">{error}</p>}
     </div>
   );
 }

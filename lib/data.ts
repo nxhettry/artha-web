@@ -1,7 +1,6 @@
 import { cache } from "react";
 import connectDb from "@/lib/mongodb";
 import Transaction from "@/models/transaction.model";
-import Person from "@/models/person.model";
 import { TransactionData } from "./actions";
 
 export const getTransactionSummary = cache(async () => {
@@ -58,12 +57,4 @@ export const getAllTransactions = cache(async (): Promise<TransactionData[]> => 
 export const getCategoryReport = cache(async () => {
   // For simplicity, we'll reuse the transaction summary
   return getTransactionSummary();
-});
-
-export const getPersons = cache(async () => {
-  await connectDb();
-
-  const persons = await Person.find().lean();
-
-  return persons;
 });
