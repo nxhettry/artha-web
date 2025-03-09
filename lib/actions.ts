@@ -54,10 +54,11 @@ export async function createTransaction(
 
 export async function deleteTransaction(id: string) {
   try {
-    const response = await fetch(`http://localhost:3000/api/transactions/${id}`, {
-      method: 'DELETE',
-    })
-    
+    const response = await fetch(`http://localhost:3000/api/transactions`, {
+      method: "DELETE",
+      body: JSON.stringify({ id }),
+    });
+
     if (!response.ok) {
       console.log('Failed to delete transaction')
       return false;
