@@ -31,8 +31,6 @@ export const PeopleProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     const getPeople = async () => {
       try {
-        console.log("Getting people");
-
         setLoading(true);
         setError(null);
 
@@ -41,8 +39,6 @@ export const PeopleProvider: React.FC<{ children: ReactNode }> = ({
         });
 
         const data = await res.json();
-
-        console.log("Data", data);  
 
         if (data.data) {
           setPeople(data.data);

@@ -6,7 +6,7 @@ export async function GET() {
   try {
     await connectDb();
 
-    const people = await Person.findOne().select("name");
+    const people = await Person.find().select("name");
 
     if (!people) {
       return NextResponse.json(
