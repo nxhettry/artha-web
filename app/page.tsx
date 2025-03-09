@@ -63,11 +63,6 @@ export default async function Home() {
                   By Person
                 </Button>
               </Link>
-              <Link href="/reports/monthly">
-                <Button variant="outline" className="w-full justify-start">
-                  Monthly Summary
-                </Button>
-              </Link>
             </div>
           </CardContent>
         </Card>

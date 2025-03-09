@@ -28,7 +28,6 @@ export default function TransactionList({
   initialTransactions,
 }: {
   initialTransactions: TransactionData[];
-  person: boolean;
 }) {
   const [transactions, setTransactions] = useState(initialTransactions);
   const [filters, setFilters] = useState({
