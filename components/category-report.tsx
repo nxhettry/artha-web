@@ -5,7 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { formatCurrency } from "@/lib/utils"
 
-export default function CategoryReport({ data }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default function CategoryReport({ data }: { data: any }) {
   const [timeframe, setTimeframe] = useState("all")
 
   // In a real app, you'd filter data based on timeframe

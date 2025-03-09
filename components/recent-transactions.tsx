@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { formatCurrency, formatDate } from "@/lib/utils";
 
-export default function RecentTransactions({ transactions }) {
-  const getCategoryColor = (category) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default function RecentTransactions({ transactions }: { transactions: any }) {
+  const getCategoryColor = (category: string) => {
     switch (category) {
       case "income":
         return "text-green-600";
@@ -16,7 +18,7 @@ export default function RecentTransactions({ transactions }) {
     }
   };
 
-  const getAmountPrefix = (category) => {
+  const getAmountPrefix = (category: string) => {
     switch (category) {
       case "income":
         return "+";
@@ -38,7 +40,7 @@ export default function RecentTransactions({ transactions }) {
           No recent transactions
         </p>
       ) : (
-        transactions.map((transaction) => (
+        transactions.map((transaction: any) => (
           <div
             key={transaction._id}
             className="flex items-center justify-between py-2"

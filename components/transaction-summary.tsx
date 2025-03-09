@@ -7,7 +7,8 @@ import {
 } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 
-export default function TransactionSummary({ data }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default function TransactionSummary({ data }: { data: any }) {
   const { income, expense, borrow, lend, balance } = data;
 
   return (
