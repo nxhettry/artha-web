@@ -54,7 +54,7 @@ export async function createTransaction(
 
 export async function deleteTransaction(id: string) {
   try {
-    const response = await fetch(`http://localhost:3000/api/transactions`, {
+    const response = await fetch(`/api/transactions`, {
       method: "DELETE",
       body: JSON.stringify({ id }),
     });
