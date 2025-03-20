@@ -34,7 +34,7 @@ export const PeopleProvider: React.FC<{ children: ReactNode }> = ({
         setLoading(true);
         setError(null);
 
-        const res = await fetch("http://localhost:3000/api/people", {
+        const res = await fetch("/api/people", {
           cache: "no-cache",
         });
 
